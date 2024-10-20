@@ -41,7 +41,7 @@ const RegisterPage = () => {
 
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={(event) => setEmail(event.target.value)}/>
+          <Form.Control type="email" placeholder="Enter email" onChange={(event) => setEmail(event.target.value)} />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -51,7 +51,7 @@ const RegisterPage = () => {
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>re-enter the password</Form.Label>
-          <Form.Control type="password" placeholder="re-enter the password" onChange={(event) => setSecPassword(event.target.value)} />
+          <Form.Control type="password" placeholder="re-enter the password" onChange={(event) => setSecPassword(event.target.value)}  />
         </Form.Group>
 
         <Button className="button-primary" type="submit">
