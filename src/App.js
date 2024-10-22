@@ -10,9 +10,11 @@ import Header from "./components/Header";  // Header 컴포넌트 불러오기
 function App() {
   return (
       <Routes>
-        <Route path="/" element={<TodoPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        {/* 기본 경로를 LoginPage로 설정 */}
+        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/todo" element={<TodoPage />} />
       </Routes>
 
   );

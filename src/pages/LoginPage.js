@@ -13,6 +13,13 @@ const LoginPage = () => {
 
   const handleLogin = async (event) => {
     event.preventDefault();
+
+    // 필수값 체크
+    if (!email || !password) {
+      setError("이메일과 비밀번호를 모두 입력해 주세요.");
+      return; // 필수값이 없으면 요청을 보내지 않음
+    }
+
     try {
       const response = await api.post("/user/login", {email, password});
       if(response.status === 200) {
@@ -20,7 +27,7 @@ const LoginPage = () => {
         sessionStorage.setItem("token", response.data.token);
         api.defaults.headers["Authorization"] = "Bearer " + response.data.token;
         setError("");
-        navigate("/");
+        navigate("/todo");
       }
       throw new Error(response.message);
     } catch (error) {
