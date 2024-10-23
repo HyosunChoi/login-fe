@@ -17,6 +17,7 @@ api.interceptors.request.use(
   },
   function (error) {
     console.log("REQUEST ERROR", error);
+    return Promise.reject(error);  // 요청 에러도 처리
   }
 );
 
@@ -26,6 +27,7 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log("RESPONSE ERROR", error.response ? error.response : error); 
     error = error.response.data;
     console.log("RESPONSE ERROR", error);
     return Promise.reject(error);
