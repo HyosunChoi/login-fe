@@ -18,7 +18,7 @@ const RegisterPage = () => {
     try {
       // 필수값 검증
       if (!name || !email || !password || !secPassword) {
-        throw new Error("모든 필수값을 입력해 주세요.");        
+        setError("모든 항목을 입력해 주세요.");        
       }
     
       if (password !== secPassword) {
@@ -36,37 +36,28 @@ const RegisterPage = () => {
         if (response.status === 400) {
           throw new Error("이미 가입된 유저입니다."); // 직접 에러 메시지 지정
         } else {
-          throw new Error(response.data.error); // 일반적인 에러 처리
+          setError(response.data.error); // 일반적인 에러 처리
         }
       }
     } catch (error) {
-
       console.error("에러 객체 전체:", error);
+      // 응답이 있는지 먼저 확인
+      if (error && error.err) {
+        // error.err이 존재하는지 확인하고 처리
+        setError(error.err);
+      } else {
+        // 응답 객체가 없을 때 처리
+        setError(error.message ||"서버에 연결할 수 없습니다.");
+      }
+        }
 
-  // 응답이 있는지 먼저 확인
-  if (error && error.err) {
-    // error.err이 존재하는지 확인하고 처리
-    setError(error.err );
-  } else {
-    // 응답 객체가 없을 때 처리
-    setError("서버에 연결할 수 없습니다.");
-  }
-    }
-      // // // 에러 메시지를 상태로 설정
-      // // setError(error.message);
-      // console.error("에러 객체 전체:", error);
-      // console.error("에러 응답:", error.message); // 응답 정보 출력
-      // if (error.response.data && error.response.data.err) {
-      //   setError(error.response.data.err); // 백엔드에서 전달한 에러 메시지 사용
-      // }
-    // }
   };
   return (
     <div className="display-center">
-      {error && (
-        <div style={{ color: "red", marginBottom: "20px" }}>
-          {error}
-        </div>
+    {error && typeof error === 'string' && (
+      <div style={{ color: "red", marginBottom: "20px" }}>
+        {error}
+      </div>
       )}
       <Form className="login-box" onSubmit={handleSubmit}>
         <h1>회원가입</h1>

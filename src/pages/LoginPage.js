@@ -41,12 +41,12 @@ const LoginPage = () => {
         <h1>로그인</h1>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Label>Email address</Form.Label>
-          <Form.Control type="email" placeholder="Enter email" onChange={(event)=>setEmail(event.target.value)} />
+          <Form.Control type="email" placeholder="Enter email" onChange={(event)=>setEmail(event.target.value) } autoComplete="email" />
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="password" placeholder="Password" onChange={(event)=>setPassword(event.target.value)} />
+          <Form.Control type="password" placeholder="Password" onChange={(event)=>setPassword(event.target.value) } autoComplete="current-password"  />
         </Form.Group>
         <div className="button-box">
           <Button type="submit" className="button-primary">
