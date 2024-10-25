@@ -11,6 +11,7 @@ const TodoPage = () => {
 
   const getTasks = async () => {
     const response = await api.get("/tasks");
+    console.log("taskList",response.data.data)
     setTodoList(response.data.data);
   };
   useEffect(() => {
@@ -20,7 +21,7 @@ const TodoPage = () => {
     try {
       const response = await api.post("/tasks", {
         task: todoValue,
-        isComplete: false,
+        isCompleted: false
       });
       if (response.status === 200) {
         getTasks();
@@ -47,10 +48,13 @@ const TodoPage = () => {
     try {
       const task = todoList.find((item) => item._id === id);
       const response = await api.put(`/tasks/${id}`, {
-        isComplete: !task.isComplete,
+        isCompleted: !task.isCompleted,
       });
       if (response.status === 200) {
-        getTasks();
+        // 성공 시 상태 업데이트 로직
+        setTodoList(todoList.map(item =>
+          item._id === id ? { ...item, isCompleted: !item.isCompleted } : item
+        ));
       }
     } catch (error) {
       console.log("error", error);

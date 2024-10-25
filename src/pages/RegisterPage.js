@@ -18,12 +18,11 @@ const RegisterPage = () => {
     try {
       // 필수값 검증
       if (!name || !email || !password || !secPassword) {
-        setError("모든 항목을 입력해 주세요.");        
+        throw new Error("모든 항목을 입력해 주세요.");        
       }
     
       if (password !== secPassword) {
-        setError("패스워드가 일치하지 않습니다. 다시 입력해 주세요.");
-        return;
+        throw new Error("패스워드가 일치하지 않습니다. 다시 입력해 주세요.");
       }
     
       const response = await api.post("/user", { name, email, password });
@@ -32,33 +31,15 @@ const RegisterPage = () => {
       if (response.status === 200) {
         navigate("/login");
       } else {
-        // 상태 코드가 400인 경우에 대한 처리
-        if (response.status === 400) {
-          throw new Error("이미 가입된 유저입니다."); // 직접 에러 메시지 지정
-        } else {
-          setError(response.data.error); // 일반적인 에러 처리
-        }
+        throw new Error(response.data.error);
       }
     } catch (error) {
-      console.error("에러 객체 전체:", error);
-      // 응답이 있는지 먼저 확인
-      if (error && error.err) {
-        // error.err이 존재하는지 확인하고 처리
-        setError(error.err);
-      } else {
-        // 응답 객체가 없을 때 처리
-        setError(error.message ||"서버에 연결할 수 없습니다.");
-      }
-        }
-
+      setError(error.message);
+    }
   };
   return (
     <div className="display-center">
-    {error && typeof error === 'string' && (
-      <div style={{ color: "red", marginBottom: "20px" }}>
-        {error}
-      </div>
-      )}
+      {error && <div className="red-error">{error}</div>}
       <Form className="login-box" onSubmit={handleSubmit}>
         <h1>회원가입</h1>
         <Form.Group className="mb-3" controlId="formName">
@@ -86,6 +67,6 @@ const RegisterPage = () => {
         </Button>
       </Form>
     </div>
-  );
-};
+  )
+}
 export default RegisterPage;

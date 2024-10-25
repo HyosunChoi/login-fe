@@ -14,18 +14,24 @@ function App() {
   const [user,setUser] = useState(null)
  const getUser = async (event) => {
     try {
-      const token = sessionStorage.getItem("token");  
-      const response = await api.get("/user/me");   
+      const storedToken = sessionStorage.getItem("token"); 
+      if (storedToken) {
+        const response = await api.get("/user/me");
+        setUser(response.data.user);
+      }        
     } catch (error) {
-      console.log("error", error);
       setUser(null);      
     }
   };
 
+  useEffect(() => {
+    getUser();
+  }, []);
+
   return (
       <Routes>
         <Route path="/" element={<PrivateRoute user={user} setUser={setUser} ><TodoPage/></PrivateRoute>} />       
-        <Route path="/login" element={<LoginPage />} />
+        <Route path="/login" element={<LoginPage user={user} setUser={setUser} />} />
         <Route path="/register" element={<RegisterPage />} />
       </Routes>
 

@@ -57,7 +57,7 @@ button{
 }
 
 .item-complete{
-  background-color: gainsboro;
+  background-color: lightgray;
   color:white;
 }
 
@@ -91,3 +91,8 @@ button{
   color: #ffffff;
   border:none;
 }
+
+.red-error{
+  color: red;
+}
+

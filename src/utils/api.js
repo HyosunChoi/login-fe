@@ -4,10 +4,10 @@ const api = axios.create({
   baseURL: `${process.env.REACT_APP_BACKEND_URL}/api`,
   headers: {
     "Content-Type": "application/json",
-    authorization: "Bearer " + localStorage.getItem("token"),
+     authorization: "Bearer " + sessionStorage.getItem("token"),
   },
 });
-/**
+/*
  * console.log all requests and responses
  */
 api.interceptors.request.use(
@@ -16,8 +16,7 @@ api.interceptors.request.use(
     return request;
   },
   function (error) {
-    console.log("REQUEST ERROR", error);
-    return Promise.reject(error);  // 요청 에러도 처리
+    console.log("REQUEST ERROR", error);    
   }
 );
 
@@ -27,7 +26,6 @@ api.interceptors.response.use(
     return response;
   },
   function (error) {
-    console.log("RESPONSE ERROR", error.response ? error.response : error); 
     error = error.response.data;
     console.log("RESPONSE ERROR", error);
     return Promise.reject(error);
