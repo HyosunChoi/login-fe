@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import api from "../utils/api";
 import { Link, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
@@ -27,13 +28,14 @@ const LoginPage = () => {
         sessionStorage.setItem("token", response.data.token);
         api.defaults.headers["Authorization"] = "Bearer " + response.data.token;
         setError("");
-        navigate("/todo");
+        navigate("/");
       }
       throw new Error(response.message);
     } catch (error) {
       setError(error.message)
     }
   }
+ 
   return (
     <div className="display-center">
       {error && <div className = "red-error">{error}</div>}

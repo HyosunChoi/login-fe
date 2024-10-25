@@ -4,17 +4,29 @@ import { Routes, Route } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import TodoPage from "./pages/TodoPage";
 import RegisterPage from "./pages/RegisterPage";
-import Header from "./components/Header";  // Header 컴포넌트 불러오기
+import PrivateRoute from "./route/PrivateRoute";
+import {useState, useEffect} from "react"
+import api from "./utils/api";
+
 
 
 function App() {
+  const [user,setUser] = useState(null)
+ const getUser = async (event) => {
+    try {
+      const token = sessionStorage.getItem("token");  
+      const response = await api.get("/user/me");   
+    } catch (error) {
+      console.log("error", error);
+      setUser(null);      
+    }
+  };
+
   return (
       <Routes>
-        {/* 기본 경로를 LoginPage로 설정 */}
-        <Route path="/" element={<LoginPage />} />
+        <Route path="/" element={<PrivateRoute user={user} setUser={setUser} ><TodoPage/></PrivateRoute>} />       
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/todo" element={<TodoPage />} />
       </Routes>
 
   );
